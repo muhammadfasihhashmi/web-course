@@ -1,10 +1,8 @@
 import { useState } from "react";
 
-function Form() {
+function Form({ setRecords }) {
   const [quantity, setQuantity] = useState(1);
   const [item, setItem] = useState("");
-
-  console.log(quantity, item);
 
   function handleQuantity(event) {
     setQuantity(event.target.value);
@@ -12,8 +10,20 @@ function Form() {
   function handleItem(event) {
     setItem(event.target.value);
   }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const itemList = {
+      id: Date.now(),
+      quantity,
+      item,
+    };
+    setRecords((record) => [...record, itemList]);
+    setQuantity(1);
+    setItem("");
+  }
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSubmit}>
       <h1 className="form-title ">What do you need for your 😍 trip?</h1>
       <select className="select" value={quantity} onChange={handleQuantity}>
         {Array.from({ length: 20 }, (_, index) => index + 1).map(
