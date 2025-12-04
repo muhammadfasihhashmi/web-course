@@ -17,6 +17,7 @@ function Form({ setRecords }) {
       id: Date.now(),
       quantity,
       item,
+      isPacked: false,
     };
     setRecords((record) => [...record, itemList]);
     setQuantity(1);
