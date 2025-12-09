@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "./components/Header";
 import Form from "./components/Form";
 import PackingList from "./components/PackingList";
+import Stats from "./components/Stats";
 
 function App() {
   const [records, setRecords] = useState([]);
@@ -31,6 +32,8 @@ function App() {
         handlePackedStatus={handlePackedStatus}
         handleClear={handleClear}
       />
+
+      <Stats records={records} />
     </div>
   );
 }
