@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-
-function SearchMovie() {
-  const [query, setQuery] = useState("");
-
+function SearchMovie({ setQuery, query }) {
   return (
     <div>
       <input

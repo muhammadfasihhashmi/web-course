@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MovieList from "./MovieList";
 
-function MoviesList({ movies }) {
+function MoviesBox({ movies, isLoading, isError }) {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -12,9 +12,12 @@ function MoviesList({ movies }) {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && <MovieList movies={movies} />}
+
+      {isOpen1 && (
+        <MovieList movies={movies} isLoading={isLoading} isError={isError} />
+      )}
     </div>
   );
 }
 
-export default MoviesList;
+export default MoviesBox;
