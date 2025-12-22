@@ -1,7 +1,7 @@
 import ErrorMessage from "./ErrorMessage";
 import Movie from "./Movie";
 
-function MovieList({ movies, isLoading, isError }) {
+function MovieList({ movies, isLoading, isError, setIsSelected }) {
   return (
     <>
       {isLoading && <div className="loader">loading...</div>}
@@ -9,7 +9,7 @@ function MovieList({ movies, isLoading, isError }) {
       {!isLoading && !isError && (
         <ul className="list">
           {movies?.map((movie) => (
-            <Movie movie={movie} />
+            <Movie movie={movie} setIsSelected={setIsSelected} />
           ))}
         </ul>
       )}

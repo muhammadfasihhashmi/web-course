@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import WatchedBox from "./components/WatchedBox";
 import MoviesBox from "./components/MoviesBox";
+import MovieDetails from "./components/MovieDetails";
 
 export const ApiKey = "b4ec1a51";
 
@@ -34,6 +35,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState("");
+  const [isSelected, setIsSelected] = useState("");
 
   useEffect(() => {
     async function getMovies() {
@@ -77,131 +79,23 @@ export default function App() {
       <Navbar movies={movies} query={query} setQuery={setQuery} />
 
       <main className="main">
-        <MoviesBox movies={movies} isLoading={isLoading} isError={isError} />
-        <WatchedBox watched={watched} />
+        <MoviesBox
+          movies={movies}
+          isLoading={isLoading}
+          isError={isError}
+          setIsSelected={setIsSelected}
+        />
+        {isSelected ? (
+          <div className="box">
+            <MovieDetails
+              isSelected={isSelected}
+              setIsSelected={setIsSelected}
+            />
+          </div>
+        ) : (
+          <WatchedBox watched={watched} />
+        )}
       </main>
     </>
   );
 }
-
-// import { useEffect, useRef, useState } from "react";
-// import { ApiKey } from "../App";
-// import LoadingSpinner from "./LoadingSpinner";
-// import ErrorMessage from "./ErrorMessage";
-// import RatingStars from "./RatingStars";
-// import { useMovieDetail } from "../hooks/useMovieDetail";
-
-// function MovieDetails({
-//   selectedMovie,
-//   handleSetWatched,
-//   watched,
-//   handleSelectedMovie,
-// }) {
-//   const timesUserRated = useRef(0);
-
-//   const [PermanentStars, setPermanentStars] = useState(null);
-//   //custom hook
-//   const { isLoading, error, movieDetails } = useMovieDetail({
-//     ApiKey,
-//     movieID: selectedMovie,
-//   });
-
-//   const {
-//     imdbID,
-//     Poster,
-//     Released,
-//     Runtime,
-//     Genre,
-//     imdbRating,
-//     Plot,
-//     Actors,
-//     Director,
-//     Title,
-//   } = movieDetails;
-
-//   function handleAdd() {
-//     const movie = {
-//       imdbID,
-//       Poster,
-//       Title,
-//       imdbRating: Number(imdbRating),
-//       userRating: PermanentStars,
-//       runtime: Number(Runtime.split(" ")[0]),
-//       timesUserRated: timesUserRated.current,
-//     };
-//     handleSetWatched(movie);
-//     handleSelectedMovie(null);
-//   }
-
-//   const isMatched = watched.some((movie) => selectedMovie === movie.imdbID);
-
-//   const matchedMovie = watched.find((movie) => selectedMovie === movie.imdbID);
-
-//   useEffect(() => {
-//     if (!Title) return;
-//     document.title = Title;
-//     //cleanup function
-//     return () => {
-//       document.title = "Use Popcorn";
-//     };
-//   }, [selectedMovie, Title]);
-
-//   return (
-//     <>
-//       {error && <ErrorMessage error={error} />}
-//       {isLoading && <LoadingSpinner />}
-//       {!error && !isLoading && (
-//         <div className="details">
-//           <header>
-//             <button
-//               className="back-button"
-//               onClick={() => handleSelectedMovie(null)}
-//             >
-//               <i className="fa-solid fa-left-long"></i>
-//             </button>
-//             <img src={Poster} alt={`Poster of ${Title} movie`} />
-//             <div className="details-overview">
-//               <h2>{Title}</h2>
-//               <p>
-//                 {Released} &bull; {Runtime}
-//               </p>
-//               <p>{Genre}</p>
-//               <p>
-//                 <span>⭐️</span>
-//                 {imdbRating} rating
-//               </p>
-//             </div>
-//           </header>
-//           <section>
-//             <div className="rating">
-//               {isMatched ? (
-//                 `Your given rating is ${matchedMovie.userRating} ⭐`
-//               ) : (
-//                 <>
-//                   <RatingStars
-//                     size={25}
-//                     PermanentStars={PermanentStars}
-//                     setPermanentStars={setPermanentStars}
-//                     timesUserRated={timesUserRated}
-//                   />
-//                   {PermanentStars && (
-//                     <button className="btn-add" onClick={handleAdd}>
-//                       + Add to list
-//                     </button>
-//                   )}
-//                 </>
-//               )}
-//             </div>
-//             <p>
-//               <em>{Plot}</em>
-//             </p>
-//             <p>Starring {Actors}</p>
-//             <p>Directed by {Director}</p>
-//           </section>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
-
-// export default MovieDetails;
